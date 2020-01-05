@@ -4,6 +4,8 @@ import tensorflow_hub as hub
 import os
 import re
 import numpy as np
+import sys
+sys.path.append("../")
 from bert.tokenization import FullTokenizer
 from tqdm import tqdm
 from tensorflow.keras import backend as K
@@ -264,8 +266,7 @@ def build_model(max_seq_length):
 
     bert_output = BertLayer(n_fine_tune_layers=3)(bert_inputs)
     dense = tf.keras.layers.Dense(256, activation="relu")(bert_output)
-    pred = tf.keras.layers.Dense(1, activation="sigmoid")(dense)
-
+    pred = tf.keras.layers.Dense(1, activation="sigmoid")(dense) 
     model = tf.keras.models.Model(inputs=bert_inputs, outputs=pred)
     model.compile(loss="binary_crossentropy", optimizer="adam", metrics=["accuracy"])
     model.summary()
